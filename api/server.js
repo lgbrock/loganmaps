@@ -20,7 +20,7 @@ mongoose
 	.then(() => console.log('MongoDB connected!'))
 	.catch((err) => console.log(err));
 
-app(cors());
+app.use(cors()); //allows for cross origin resource sharing(Not used for this project but very important so make it a habit)
 
 // Use Routes
 app.use('/api/pins', pinRoute);
