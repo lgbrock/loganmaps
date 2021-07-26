@@ -4,14 +4,14 @@
 	"description": "backend for maps",
 	"main": "server.js",
 	"scripts": {
-		"start": "nodemon server.js",
-		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
+		"start": "nodemon server.js"
 	},
 	"author": "Logan Brock",
 	"license": "MIT",
 	"dependencies": {
 		"bcrypt": "^5.0.1",
 		"cors": "^2.8.5",
+		"dotenv": "^10.0.0",
 		"express": "^4.17.1",
 		"mongoose": "^5.13.3",
 		"nodemon": "^2.0.12"
