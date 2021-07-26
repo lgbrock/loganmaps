@@ -72,7 +72,7 @@ function App() {
 			}
 		};
 		getPins();
-	}, []);
+	});
 
 	const handleLogout = () => {
 		setCurrentUsername(null);
