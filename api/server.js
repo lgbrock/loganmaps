@@ -2,10 +2,11 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const app = express();
-const path = require('path');
+const multer = require('multer');
+const cors = require('cors');
+// const path = require('path');
 const pinRoute = require('./routes/pins');
 const userRoute = require('./routes/users');
-const cors = require('cors');
 
 dotenv.config();
 app.use(express.json());
@@ -22,23 +23,46 @@ mongoose
 
 app.use(cors()); //allows for cross origin resource sharing(Not used for this project but very important so make it a habit)
 
+const storage = multer.diskStorage({
+	destination: (req, file, cb) => {
+		cb(null, 'images');
+	},
+	filename: (req, file, cb) => {
+		cb(null, req.body.name);
+	},
+});
+
+const upload = multer({ storage: storage });
+app.post('/api/upload', upload.single('file'), (req, res) => {
+	try {
+		return res.status(200).json('File uploaded successfully');
+	} catch (error) {
+		console.error(error);
+	}
+});
+
 // Use Routes
 app.use('/api/pins', pinRoute);
 app.use('/api/users', userRoute);
 
 // Serve static assets if in production
-if (process.env.NODE_ENV === 'production') {
-	// Set static folder
-	app.use(express.static('../client/build'));
+app.use(express.static(path.join(__dirname, '/client/build')));
 
-	app.get('*', (req, res) => {
-		res.sendFile(path.resolve(_dirname, 'client', 'build', 'index.html'));
-	});
-}
+app.get('*', (req, res) => {
+	res.sendFile(path.join(__dirname, '/client/build', 'index.html'));
+});
+
+// Serve static assets if in production
+// if (process.env.NODE_ENV === 'production') {
+// 	// Set static folder
+// 	app.use(express.static('../client/build'));
+
+// 	app.get('*', (req, res) => {
+// 		res.sendFile(path.resolve(_dirname, 'client', 'build', 'index.html'));
+// 	});
+// }
 
 // Port
-const port = process.env.PORT || 5000;
-
-app.listen(port, () => {
+app.listen(process.env.PORT || 5000, () => {
 	console.log('Backend server is running...');
 });

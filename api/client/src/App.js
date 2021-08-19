@@ -2,7 +2,8 @@ import './app.css';
 import ReactMapGL, { Marker, Popup } from 'react-map-gl';
 import { useEffect, useState } from 'react';
 import { Room, Star } from '@material-ui/icons';
-import axios from 'axios';
+import { axiosInstance } from '../../config';
+
 // import { format } from "timeago.js";
 import Register from './components/Register';
 import Login from './components/Login';
@@ -23,9 +24,7 @@ function App() {
 		longitude: -111.891,
 		zoom: 5,
 	});
-	const axiosInstance = axios.create({
-		baseURL: process.env.REACT_APP_API_URL,
-	});
+
 	const [showRegister, setShowRegister] = useState(false);
 	const [showLogin, setShowLogin] = useState(false);
 

@@ -1,61 +1,50 @@
+// Login Page
 import { Cancel, Room } from '@material-ui/icons';
-import axios from 'axios';
+import { axiosInstance } from '../../config';
 import { useRef, useState } from 'react';
-import './register.css';
+import './login.css';
 
-export default function Register({ setShowRegister }) {
-	const [success, setSuccess] = useState(false);
+export default function Login({ setShowLogin, setCurrentUsername, myStorage }) {
 	const [error, setError] = useState(false);
 	const usernameRef = useRef();
-	const emailRef = useRef();
 	const passwordRef = useRef();
-	const axiosInstance = axios.create({
-		baseURL: process.env.REACT_APP_API_URL,
-	});
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		const newUser = {
+		const user = {
 			username: usernameRef.current.value,
-			email: emailRef.current.value,
 			password: passwordRef.current.value,
 		};
-
 		try {
-			await axiosInstance.post('/users/register', newUser);
-			setError(false);
-			setSuccess(true);
+			const res = await axiosInstance.post('/users/login', user);
+			setCurrentUsername(res.data.username);
+			myStorage.setItem('user', res.data.username);
+			setShowLogin(false);
 		} catch (err) {
 			setError(true);
 		}
 	};
+
 	return (
-		<div className='registerContainer'>
+		<div className='loginContainer'>
 			<div className='logo'>
 				<Room className='logoIcon' />
 				<span>LoganMaps</span>
 			</div>
 			<form onSubmit={handleSubmit}>
 				<input autoFocus placeholder='username' ref={usernameRef} />
-				<input type='email' placeholder='email' ref={emailRef} />
 				<input
 					type='password'
 					min='6'
 					placeholder='password'
 					ref={passwordRef}
 				/>
-				<button className='registerBtn' type='submit'>
-					Register
+				<button className='loginBtn' type='submit'>
+					Login
 				</button>
-				{success && (
-					<span className='success'>Successfull. You can login now!</span>
-				)}
 				{error && <span className='failure'>Something went wrong!</span>}
 			</form>
-			<Cancel
-				className='registerCancel'
-				onClick={() => setShowRegister(false)}
-			/>
+			<Cancel className='loginCancel' onClick={() => setShowLogin(false)} />
 		</div>
 	);
 }
