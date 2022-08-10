@@ -1,6 +1,6 @@
 // Login Page
 import { Cancel, Room } from '@material-ui/icons';
-import { axiosInstance } from '../../config';
+import { axiosInstance } from './../config';
 import { useRef, useState } from 'react';
 import './login.css';
 
