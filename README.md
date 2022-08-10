@@ -14,7 +14,7 @@
 
 > Full stack MERN app that marks location of places visited on family vacation
 
-### 🏠 [Homepage](http://31.220.50.254/)
+### 🏠 [Homepage](http://loganmaps.herokuapp.com/)
 
 ## Install
 
@@ -46,6 +46,3 @@ npm run test
 ## Show your support
 
 Give a ⭐️ if this project helped you!
-
-***
-_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
